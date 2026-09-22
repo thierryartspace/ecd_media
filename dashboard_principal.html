@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ndaah Academy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      height: 100vh;
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ----- SIDEBAR (desktop only) ----- */
+    .sidebar {
+      width: 270px;
+      background: #ffffff;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 2px solid #cbd5e1;
+    }
+
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 24px 20px;
+      gap: 14px;
+    }
+
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+
+    .school-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e3a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 14px 24px 14px;
+      gap: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #334155;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+      cursor: default;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+
+    .menu-item i {
+      font-size: 1.1rem;
+      width: 22px;
+      text-align: center;
+      color: #54708f;
+      transition: color 0.15s ease;
+    }
+
+    .menu-item:hover {
+      background-color: #f1f6fd;
+      color: #1e3c72;
+    }
+
+    .menu-item:hover i {
+      color: #1e3c72;
+    }
+
+    .menu-item.active {
+      background: #e9f0fe;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+
+    .menu-item.active i {
+      color: #1e3c72;
+    }
+
+    /* ----- MAIN ----- */
+    .main {
+      flex: 1;
+      background: #f9fcff;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      padding: 16px 20px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ----- DASHBOARD GRID (9 cards) ----- */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 10px 9px 10px;
+      border: 1px solid #e9eef5;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .stat-card .card-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #334155;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stat-card .card-bottom {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .stat-card .card-icon {
+      font-size: 0.95rem;
+      color: #54708f;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card .card-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ----- CHARTS CARD ----- */
+    .charts-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e9eef5;
+      padding: 12px 16px 12px 16px;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .charts-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .chart-block {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .chart-block-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #1e3c72;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Chart + legend list layout (pie charts) */
+    .chart-with-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+
+    .legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+      justify-content: center;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .legend-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1e3c72;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .legend-sub {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #334155;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .legend-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      margin-left: auto;
+      padding-left: 8px;
+    }
+
+    /* Bar chart container */
+    .bar-chart-container {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+    }
+
+    /* ----- MOBILE ELEMENTS (hidden by default) ----- */
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+    }
+
+    /* ----- FULL-SCREEN MOBILE MENU OVERLAY ----- */
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 200;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mobile-menu-overlay.open {
+      display: flex;
+    }
+
+    .mobile-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 16px 20px;
+      gap: 10px;
+    }
+
+    .mobile-sidebar-header .logo-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+    }
+
+    .mobile-sidebar-header .school-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .mobile-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 0 14px 24px 14px;
+      gap: 2px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-sidebar-menu .menu-item {
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border-radius: 10px;
+      gap: 14px;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      border: none;
+      padding: 0;
+      z-index: 210;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 1200px) and (min-width: 769px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .charts-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .main {
+        overflow-y: auto;
+      }
+    }
+
+    /* Mobile (max-width: 768px) */
+    @media (max-width: 768px) {
+      html, body {
+        position: static;
+        overflow: auto;
+        height: auto;
+      }
+
+      body {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        padding: 20px 16px 88px 16px;
+        display: block;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+      }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+        z-index: 250;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 4px;
+      }
+
+      .mobile-bottom-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        flex: 1;
+        height: 100%;
+        transition: color 0.15s ease;
+        cursor: default;
+        padding: 6px 0;
+      }
+
+      .mobile-bottom-nav .nav-item i {
+        font-size: 1.25rem;
+        color: #64748b;
+        transition: color 0.15s ease;
+      }
+
+      .mobile-bottom-nav .nav-item.active,
+      .mobile-bottom-nav .nav-item:hover {
+        color: #1e3c72;
+      }
+
+      .mobile-bottom-nav .nav-item.active i,
+      .mobile-bottom-nav .nav-item:hover i {
+        color: #1e3c72;
+      }
+
+      .mobile-menu-overlay {
+        padding: 0;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .mobile-sidebar {
+        padding-bottom: 68px;
+        overflow-y: auto;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .stat-card {
+        padding: 10px 8px 9px 8px;
+        gap: 5px;
+      }
+
+      .stat-card .card-label {
+        font-size: 0.72rem;
+        font-weight: 500;
+      }
+
+      .stat-card .card-value {
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .stat-card .card-icon {
+        font-size: 0.85rem;
+        width: 16px;
+        height: 16px;
+      }
+
+      .stat-card .card-bottom {
+        gap: 5px;
+      }
+
+      .charts-card {
+        padding: 14px 14px 16px 14px;
+        margin-bottom: 16px;
+        flex: none;
+        display: block;
+      }
+
+      .charts-wrapper {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        display: grid;
+      }
+
+      .chart-block-title {
+        font-size: 0.72rem;
+        margin-bottom: 10px;
+      }
+
+      .chart-with-legend {
+        gap: 12px;
+      }
+
+      .chart-container {
+        width: 120px;
+        height: 120px;
+      }
+
+      .legend-list {
+        gap: 10px;
+      }
+
+      .legend-label {
+        font-size: 0.72rem;
+      }
+
+      .legend-sub {
+        font-size: 0.62rem;
+      }
+
+      .legend-value {
+        font-size: 0.78rem;
+      }
+
+      .legend-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .bar-chart-container {
+        height: 200px;
+        flex: none;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-nav,
+      .mobile-menu-toggle,
+      .mobile-menu-overlay {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img 
+        class="logo-img" 
+        src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+        alt="Ndaah Academy Logo"
+        onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+      >
+      <div class="school-name">Ndaah Academy</div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item active"><i class="fas fa-home"></i> Home</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+      <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+      <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+      <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+      <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+      <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+      <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN – DASHBOARD VIEW -->
+  <main class="main">
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+
+    <!-- 9 STAT CARDS -->
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="card-label">Students</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+          <div class="card-value">126</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Parents</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-users"></i></div>
+          <div class="card-value">94</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Staff</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <div class="card-value">18</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Teacher</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+          <div class="card-value">24</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Attendance</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="card-value">91%</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Fees</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-coins"></i></div>
+          <div class="card-value">45M</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Outstanding</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="card-value">5M</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Payments</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="card-value">216</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Credit</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <div class="card-value">2M</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT CHARTS CARD -->
+    <div class="charts-card">
+      <div class="charts-wrapper">
+        <div class="chart-block">
+          <div class="chart-block-title">Payment</div>
+          <div class="chart-with-legend">
+            <div class="chart-container">
+              <canvas id="paymentAccountsChart"></canvas>
+            </div>
+            <div class="legend-list" id="accountsLegend"></div>
+          </div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-block-title">Fee Payment Status</div>
+          <div class="chart-with-legend">
+            <div class="chart-container">
+              <canvas id="paymentStatusChart"></canvas>
+            </div>
+            <div class="legend-list" id="statusLegend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE & CLASS OVERVIEW CARD -->
+    <div class="charts-card">
+      <div class="charts-wrapper">
+        <div class="chart-block">
+          <div class="chart-block-title">Weekly Attendance</div>
+          <div class="bar-chart-container">
+            <canvas id="attendanceChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-block-title">Students in Class</div>
+          <div class="bar-chart-container">
+            <canvas id="classChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-user-graduate"></i><span>Student</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Academic</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-calendar-check"></i><span>Attendance</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-clipboard-list"></i><span>Assessment</span></a>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuClose">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-sidebar">
+      <div class="mobile-sidebar-header">
+        <img 
+          class="logo-img" 
+          src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+          alt="Ndaah Academy Logo"
+          onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+        >
+        <div class="school-name">Ndaah Academy</div>
+      </div>
+
+      <nav class="mobile-sidebar-menu">
+        <a href="#" class="menu-item active"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+        <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+        <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+        <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+        <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+        <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('mobileMenuToggle');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const closeBtn = document.getElementById('mobileMenuClose');
+
+      if (toggle && overlay && closeBtn) {
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          overlay.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', function() {
+          overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('open');
+          }
+        });
+      }
+    })();
+
+    /* ----- CHART.JS GLOBAL DEFAULTS ----- */
+    Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+    Chart.defaults.font.size = 11;
+    Chart.defaults.color = '#334155';
+
+    /* ----- CHART 1: PAYMENT ----- */
+    const accountLabels = ['Equity Bank', 'Bank of Kigali', 'Access Bank', 'GT Bank'];
+    const accountAmounts = [18500000, 14200000, 8700000, 3600000];
+    const accountCounts  = [86, 62, 41, 27];
+    const accountColors  = ['#1e3c72', '#54708f', '#8aa9c9', '#cbd5e1'];
+
+    const accountsCtx = document.getElementById('paymentAccountsChart').getContext('2d');
+
+    new Chart(accountsCtx, {
+      type: 'pie',
+      data: {
+        labels: accountLabels,
+        datasets: [{
+          data: accountAmounts,
+          backgroundColor: accountColors,
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                const i = context.dataIndex;
+                const amount = accountAmounts[i];
+                const count = accountCounts[i];
+                const formatted = new Intl.NumberFormat('en-RW').format(amount) + ' RWF';
+                return [
+                  'Amount: ' + formatted,
+                  'Transactions: ' + count
+                ];
+              }
+            }
+          }
+        }
+      }
+    });
+
+    (function() {
+      const legendEl = document.getElementById('accountsLegend');
+      accountLabels.forEach(function(label, i) {
+        const amount = accountAmounts[i];
+        const count = accountCounts[i];
+        const formatted = (amount / 1000000).toFixed(1) + 'M';
+
+        const row = document.createElement('div');
+        row.className = 'legend-row';
+
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = accountColors[i];
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'legend-text';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'legend-label';
+        lbl.textContent = label;
+
+        const sub = document.createElement('span');
+        sub.className = 'legend-sub';
+        sub.textContent = count + ' transactions';
+
+        textWrap.appendChild(lbl);
+        textWrap.appendChild(sub);
+
+        const val = document.createElement('span');
+        val.className = 'legend-value';
+        val.textContent = formatted;
+
+        row.appendChild(dot);
+        row.appendChild(textWrap);
+        row.appendChild(val);
+        legendEl.appendChild(row);
+      });
+    })();
+
+    /* ----- CHART 2: FEE PAYMENT STATUS ----- */
+    const statusLabels = ['Unpaid', 'Partially Paid', 'Paid', 'Waived'];
+    const statusCounts = [34, 58, 118, 6];
+    const statusColors = ['#e11d48', '#f59e0b', '#16a34a', '#94a3b8'];
+
+    const statusCtx = document.getElementById('paymentStatusChart').getContext('2d');
+
+    new Chart(statusCtx, {
+      type: 'pie',
+      data: {
+        labels: statusLabels,
+        datasets: [{
+          data: statusCounts,
+          backgroundColor: statusColors,
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                const i = context.dataIndex;
+                const count = statusCounts[i];
+                const total = statusCounts.reduce(function(a, b) { return a + b; }, 0);
+                const pct = ((count / total) * 100).toFixed(1);
+                return count + ' students (' + pct + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    (function() {
+      const legendEl = document.getElementById('statusLegend');
+      statusLabels.forEach(function(label, i) {
+        const count = statusCounts[i];
+
+        const row = document.createElement('div');
+        row.className = 'legend-row';
+
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = statusColors[i];
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'legend-text';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'legend-label';
+        lbl.textContent = label;
+
+        textWrap.appendChild(lbl);
+
+        const val = document.createElement('span');
+        val.className = 'legend-value';
+        val.textContent = count;
+
+        row.appendChild(dot);
+        row.appendChild(textWrap);
+        row.appendChild(val);
+        legendEl.appendChild(row);
+      });
+    })();
+
+    /* ----- CHART 3: WEEKLY ATTENDANCE ----- */
+    const attendanceDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const attendancePresent = [92, 88, 95, 90, 87];
+    const attendanceAbsent  = [5, 8, 3, 7, 9];
+    const attendanceLate    = [3, 4, 2, 3, 4];
+
+    const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+
+    new Chart(attendanceCtx, {
+      type: 'bar',
+      data: {
+        labels: attendanceDays,
+        datasets: [
+          {
+            label: 'Present',
+            data: attendancePresent,
+            backgroundColor: '#16a34a',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Absent',
+            data: attendanceAbsent,
+            backgroundColor: '#e11d48',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Late',
+            data: attendanceLate,
+            backgroundColor: '#f59e0b',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: {
+          padding: { top: 0, bottom: 0 }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              font: { size: 11, weight: '700' },
+              color: '#1e3c72'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: {
+              color: '#eef2f7',
+              drawBorder: false
+            },
+            ticks: {
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72',
+              callback: function(value) { return value + '%'; },
+              stepSize: 25
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+            labels: {
+              boxWidth: 10,
+              boxHeight: 10,
+              padding: 8,
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72',
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    /* ----- CHART 4: STUDENTS IN CLASS ----- */
+    const classLabels = ['PN', 'N1', 'N2', 'N3', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6'];
+    const classCounts = [40, 50, 23, 33, 45, 38, 42, 36, 29, 31];
+
+    const classCtx = document.getElementById('classChart').getContext('2d');
+
+    new Chart(classCtx, {
+      type: 'bar',
+      data: {
+        labels: classLabels,
+        datasets: [{
+          label: 'Students',
+          data: classCounts,
+          backgroundColor: '#1e3c72',
+          borderRadius: 3,
+          barPercentage: 0.65,
+          categoryPercentage: 0.75
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: {
+          padding: { top: 0, bottom: 0 }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: '#eef2f7',
+              drawBorder: false
+            },
+            ticks: {
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72',
+              stepSize: 15
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                return context.parsed.y + ' students';
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
