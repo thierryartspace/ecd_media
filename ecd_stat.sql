@@ -1,3 +1,38 @@
+CREATE TABLE school_attendance_statistics (
+    school_attendance_statistics_id INT AUTO_INCREMENT PRIMARY KEY,
+    attendance_date DATE NOT NULL,
+
+    present_count INT NOT NULL DEFAULT 0,
+    absent_count INT NOT NULL DEFAULT 0,
+    late_count INT NOT NULL DEFAULT 0,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uq_school_attendance_date (attendance_date)
+);
+CREATE TABLE class_attendance_statistics (
+    class_attendance_statistics_id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+
+    present_count INT NOT NULL DEFAULT 0,
+    absent_count INT NOT NULL DEFAULT 0,
+    late_count INT NOT NULL DEFAULT 0,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uq_class_attendance_date (class_id, attendance_date),
+
+    CONSTRAINT fk_class_attendance_statistics_class
+        FOREIGN KEY (class_id)
+        REFERENCES class(class_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
 CREATE TABLE payment_method (
     payment_method_id INT AUTO_INCREMENT PRIMARY KEY,
     method_name VARCHAR(30) NOT NULL UNIQUE,
