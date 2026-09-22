@@ -16,4 +16,10 @@ INSERT INTO permission (module_id, permission_name, description) VALUES
 
 (1, 'student.export.all',         'Export all student records'),
 (1, 'student.export.assigned',    'Export students in the teacher''s assigned classes'),
-(1, 'student.export.own_children','Export the parent''s own children records');
+(1, 'student.export.own_children','Export the parent''s own children records'),
+(1, 'finance.view.all', 'View school-wide finance totals grouped by payment account'),
+(1, 'finance.view.own_children', 'View fee status for the logged-in parent''s own children'),
+(1, 'parent.view.all', 'View total parent in the school'),
+(1, 'staff.view.all',   'View total staff in the school'),
+(1, 'teacher.view.all', 'View total teacher in the school');
+
