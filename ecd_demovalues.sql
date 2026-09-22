@@ -1,3 +1,6 @@
+INSERT INTO module (module_id, module_name, description) VALUES 
+  (1,'Home', 'Dashboard and landing page');
+
 INSERT INTO permission (module_id, permission_name, description) VALUES
 (1, 'student.view.all',           'View all student records in the school'),
 (1, 'student.view.assigned',      'View students in classes assigned to the logged-in teacher'),
