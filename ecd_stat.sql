@@ -1,3 +1,23 @@
+CREATE TABLE payment_method (
+    payment_method_id INT AUTO_INCREMENT PRIMARY KEY,
+    method_name VARCHAR(30) NOT NULL UNIQUE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+CREATE TABLE account_name (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_method_id INT NOT NULL,
+    account_name VARCHAR(100) NOT NULL,
+    account_number VARCHAR(100) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'RWF',
+    notes TEXT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    CONSTRAINT fk_account_payment_method
+        FOREIGN KEY (payment_method_id)
+        REFERENCES payment_method(payment_method_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
 CREATE TABLE term_statistics (
     term_statistics_id INT AUTO_INCREMENT PRIMARY KEY,
     term_id INT NOT NULL,
