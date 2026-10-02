@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ndaah Academy · Student</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      height: 100vh;
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ----- SIDEBAR (desktop only) ----- */
+    .sidebar {
+      width: 270px;
+      background: #ffffff;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 2px solid #cbd5e1;
+    }
+
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 24px 20px;
+      gap: 14px;
+    }
+
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+
+    .school-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e3a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 14px 24px 14px;
+      gap: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #334155;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+      cursor: default;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+
+    .menu-item i {
+      font-size: 1.1rem;
+      width: 22px;
+      text-align: center;
+      color: #54708f;
+      transition: color 0.15s ease;
+    }
+
+    .menu-item:hover {
+      background-color: #f1f6fd;
+      color: #1e3c72;
+    }
+
+    .menu-item:hover i {
+      color: #1e3c72;
+    }
+
+    .menu-item.active {
+      background: #e9f0fe;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+
+    .menu-item.active i {
+      color: #1e3c72;
+    }
+
+    /* ----- MAIN ----- */
+    .main {
+      flex: 1;
+      background: #f9fcff;
+      height: 100vh;
+      overflow-y: auto;
+      position: relative;
+      padding: 16px 20px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ----- DASHBOARD GRID (9 cards) ----- */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 10px 9px 10px;
+      border: 1px solid #e9eef5;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .stat-card .card-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #54708f;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stat-card .card-bottom {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .stat-card .card-icon {
+      font-size: 0.95rem;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card .card-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ----- CHARTS CARD ----- */
+    .charts-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e9eef5;
+      padding: 12px 16px 12px 16px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .charts-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    .chart-block {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .chart-block-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #1e3c72;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Chart + legend list layout (pie charts) */
+    .chart-with-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+
+    .legend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+      justify-content: center;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .legend-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1e3c72;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .legend-sub {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #334155;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .legend-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      margin-left: auto;
+      padding-left: 8px;
+    }
+
+    /* Bar chart container */
+    .bar-chart-container {
+      position: relative;
+      height: 220px;
+      width: 100%;
+    }
+
+    /* ----- MOBILE ELEMENTS ----- */
+    .mobile-bottom-nav { display: none; }
+
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+    }
+
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 200;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mobile-menu-overlay.open { display: flex; }
+
+    .mobile-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 16px 20px;
+      gap: 10px;
+    }
+
+    .mobile-sidebar-header .logo-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .mobile-sidebar-header .school-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      text-align: center;
+    }
+
+    .mobile-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 0 14px 24px 14px;
+      gap: 2px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-sidebar-menu .menu-item {
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border-radius: 10px;
+      gap: 14px;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+      z-index: 210;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 1200px) and (min-width: 769px) {
+      .dashboard-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .dashboard-grid { grid-template-columns: repeat(4, 1fr); }
+      .charts-wrapper { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      html, body {
+        position: static;
+        overflow: auto;
+        height: auto;
+      }
+
+      body { display: block; height: auto; }
+      .sidebar { display: none; }
+
+      .main {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        padding: 20px 16px 88px 16px;
+        display: block;
+      }
+
+      .mobile-menu-toggle { display: flex; }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+        z-index: 250;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 4px;
+      }
+
+      .mobile-bottom-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 500;
+        flex: 1;
+        height: 100%;
+        cursor: default;
+        padding: 6px 0;
+      }
+
+      .mobile-bottom-nav .nav-item i {
+        font-size: 1.25rem;
+        color: #64748b;
+      }
+
+      .mobile-bottom-nav .nav-item.active,
+      .mobile-bottom-nav .nav-item:hover { color: #1e3c72; }
+      .mobile-bottom-nav .nav-item.active i,
+      .mobile-bottom-nav .nav-item:hover i { color: #1e3c72; }
+
+      .mobile-menu-overlay {
+        padding: 0;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .mobile-sidebar { padding-bottom: 68px; overflow-y: auto; }
+
+      .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .stat-card { padding: 10px 8px 9px 8px; gap: 5px; }
+      .stat-card .card-label { font-size: 0.62rem; }
+      .stat-card .card-value { font-size: 0.9rem; }
+      .stat-card .card-icon { font-size: 0.85rem; width: 16px; height: 16px; }
+      .stat-card .card-bottom { gap: 5px; }
+
+      .charts-card {
+        padding: 14px 14px 16px 14px;
+        margin-bottom: 16px;
+      }
+
+      .charts-wrapper {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .chart-block-title { font-size: 0.72rem; margin-bottom: 10px; }
+      .chart-with-legend { gap: 12px; }
+      .chart-container { width: 120px; height: 120px; }
+      .legend-list { gap: 10px; }
+      .legend-label { font-size: 0.72rem; }
+      .legend-sub { font-size: 0.62rem; }
+      .legend-value { font-size: 0.78rem; }
+      .legend-dot { width: 8px; height: 8px; }
+      .bar-chart-container { height: 220px; }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-nav,
+      .mobile-menu-toggle,
+      .mobile-menu-overlay { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img 
+        class="logo-img" 
+        src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+        alt="Ndaah Academy Logo"
+        onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+      >
+      <div class="school-name">Ndaah Academy</div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+      <a href="#" class="menu-item active"><i class="fas fa-user-graduate"></i> Student</a>
+      <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+      <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+      <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+      <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+      <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+      <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN – STUDENT SECTION -->
+  <main class="main">
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+
+    <!-- 9 STAT CARDS -->
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="card-label">Enrolled</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-users" style="color:#1e3c72;"></i></div>
+          <div class="card-value">1,248</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Active</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-check-circle" style="color:#16a34a;"></i></div>
+          <div class="card-value">156</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Inactive</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-pause-circle" style="color:#f59e0b;"></i></div>
+          <div class="card-value">28</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Graduated</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-graduation-cap" style="color:#1e3c72;"></i></div>
+          <div class="card-value">22</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Withdrawn</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-minus" style="color:#e11d48;"></i></div>
+          <div class="card-value">10</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Transferred</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-exchange-alt" style="color:#54708f;"></i></div>
+          <div class="card-value">14</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">Parents</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-friends" style="color:#1e3c72;"></i></div>
+          <div class="card-value">184</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">New Student</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-plus" style="color:#16a34a;"></i></div>
+          <div class="card-value">42</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="card-label">New Parent</div>
+        <div class="card-bottom">
+          <div class="card-icon"><i class="fas fa-user-plus" style="color:#54708f;"></i></div>
+          <div class="card-value">28</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART CARD 1 (existing): GENDER + PARENT RELATIONSHIP PIE -->
+    <div class="charts-card">
+      <div class="charts-wrapper">
+        <div class="chart-block">
+          <div class="chart-block-title">Gender Distribution</div>
+          <div class="chart-with-legend">
+            <div class="chart-container">
+              <canvas id="genderChart"></canvas>
+            </div>
+            <div class="legend-list" id="genderLegend"></div>
+          </div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-block-title">Parent Relationship</div>
+          <div class="chart-with-legend">
+            <div class="chart-container">
+              <canvas id="parentChart"></canvas>
+            </div>
+            <div class="legend-list" id="parentLegend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART CARD 2 (new): STUDENTS BY YEAR & GENDER + PARENTS BY YEAR & RELATIONSHIP -->
+    <div class="charts-card">
+      <div class="charts-wrapper">
+        <div class="chart-block">
+          <div class="chart-block-title">Students by Academic Year &amp; Gender</div>
+          <div class="bar-chart-container">
+            <canvas id="studentYearGenderChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-block">
+          <div class="chart-block-title">Parents by Academic Year &amp; Relationship</div>
+          <div class="bar-chart-container">
+            <canvas id="parentYearRelationChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav">
+    <a href="#" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item active"><i class="fas fa-user-graduate"></i><span>Student</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Academic</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-calendar-check"></i><span>Attendance</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-clipboard-list"></i><span>Assessment</span></a>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuClose">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-sidebar">
+      <div class="mobile-sidebar-header">
+        <img 
+          class="logo-img" 
+          src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+          alt="Ndaah Academy Logo"
+          onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+        >
+        <div class="school-name">Ndaah Academy</div>
+      </div>
+
+      <nav class="mobile-sidebar-menu">
+        <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-item active"><i class="fas fa-user-graduate"></i> Student</a>
+        <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+        <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+        <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+        <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+        <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('mobileMenuToggle');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const closeBtn = document.getElementById('mobileMenuClose');
+
+      if (toggle && overlay && closeBtn) {
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          overlay.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', function() {
+          overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('open');
+          }
+        });
+      }
+    })();
+
+    /* ----- CHART.JS GLOBAL DEFAULTS ----- */
+    Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+    Chart.defaults.font.size = 11;
+    Chart.defaults.color = '#334155';
+
+    /* ============================================
+       CHART 1A: GENDER DISTRIBUTION (PIE)
+       ============================================ */
+    const genderLabels = ['Male', 'Female'];
+    const genderCounts = [74, 82];
+    const genderColors = ['#1e3c72', '#e83e8c'];
+
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    new Chart(genderCtx, {
+      type: 'pie',
+      data: {
+        labels: genderLabels,
+        datasets: [{
+          data: genderCounts,
+          backgroundColor: genderColors,
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                const i = context.dataIndex;
+                const count = genderCounts[i];
+                const total = genderCounts.reduce(function(a, b) { return a + b; }, 0);
+                const pct = ((count / total) * 100).toFixed(1);
+                return count + ' students (' + pct + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Custom legend for gender
+    (function() {
+      const legendEl = document.getElementById('genderLegend');
+      genderLabels.forEach(function(label, i) {
+        const count = genderCounts[i];
+        const total = genderCounts.reduce(function(a, b) { return a + b; }, 0);
+        const pct = ((count / total) * 100).toFixed(1);
+
+        const row = document.createElement('div');
+        row.className = 'legend-row';
+
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = genderColors[i];
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'legend-text';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'legend-label';
+        lbl.textContent = label;
+
+        const sub = document.createElement('span');
+        sub.className = 'legend-sub';
+        sub.textContent = pct + '% of students';
+
+        textWrap.appendChild(lbl);
+        textWrap.appendChild(sub);
+
+        const val = document.createElement('span');
+        val.className = 'legend-value';
+        val.textContent = count;
+
+        row.appendChild(dot);
+        row.appendChild(textWrap);
+        row.appendChild(val);
+        legendEl.appendChild(row);
+      });
+    })();
+
+    /* ============================================
+       CHART 1B: PARENT RELATIONSHIP (PIE)
+       ============================================ */
+    const parentLabels = ['Mother', 'Father', 'Guardian', 'Other'];
+    const parentCounts = [88, 64, 24, 8];
+    const parentColors = ['#e83e8c', '#1e3c72', '#54708f', '#94a3b8'];
+
+    const parentCtx = document.getElementById('parentChart').getContext('2d');
+    new Chart(parentCtx, {
+      type: 'pie',
+      data: {
+        labels: parentLabels,
+        datasets: [{
+          data: parentCounts,
+          backgroundColor: parentColors,
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                const i = context.dataIndex;
+                const count = parentCounts[i];
+                const total = parentCounts.reduce(function(a, b) { return a + b; }, 0);
+                const pct = ((count / total) * 100).toFixed(1);
+                return count + ' parents (' + pct + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Custom legend for parent relationship
+    (function() {
+      const legendEl = document.getElementById('parentLegend');
+      parentLabels.forEach(function(label, i) {
+        const count = parentCounts[i];
+        const total = parentCounts.reduce(function(a, b) { return a + b; }, 0);
+        const pct = ((count / total) * 100).toFixed(1);
+
+        const row = document.createElement('div');
+        row.className = 'legend-row';
+
+        const dot = document.createElement('span');
+        dot.className = 'legend-dot';
+        dot.style.background = parentColors[i];
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'legend-text';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'legend-label';
+        lbl.textContent = label;
+
+        const sub = document.createElement('span');
+        sub.className = 'legend-sub';
+        sub.textContent = pct + '% of parents';
+
+        textWrap.appendChild(lbl);
+        textWrap.appendChild(sub);
+
+        const val = document.createElement('span');
+        val.className = 'legend-value';
+        val.textContent = count;
+
+        row.appendChild(dot);
+        row.appendChild(textWrap);
+        row.appendChild(val);
+        legendEl.appendChild(row);
+      });
+    })();
+
+    /* ============================================
+       CHART 2A: STUDENTS BY ACADEMIC YEAR & GENDER (GROUPED BARS)
+       ============================================ */
+    const yearLabels = ['2020–21', '2021–22', '2022–23', '2023–24', '2024–25', '2025–26', '2026–27'];
+    const yearMale   = [65, 88, 110, 128, 150, 172, 198];
+    const yearFemale = [55, 77, 100, 120, 140, 163, 188];
+
+    const studentCtx = document.getElementById('studentYearGenderChart').getContext('2d');
+    new Chart(studentCtx, {
+      type: 'bar',
+      data: {
+        labels: yearLabels,
+        datasets: [
+          {
+            label: 'Male',
+            data: yearMale,
+            backgroundColor: '#1e3c72',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Female',
+            data: yearFemale,
+            backgroundColor: '#e83e8c',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: '700' }, color: '#1e3c72' }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: '#eef2f7', drawBorder: false },
+            ticks: { font: { size: 10, weight: '700' }, color: '#1e3c72', stepSize: 50 }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+            labels: {
+              boxWidth: 10,
+              boxHeight: 10,
+              padding: 10,
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72',
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + ' students';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    /* ============================================
+       CHART 2B: PARENTS BY ACADEMIC YEAR & RELATIONSHIP (GROUPED BARS)
+       ============================================ */
+    const parentYearLabels = ['2020–21', '2021–22', '2022–23', '2023–24', '2024–25', '2025–26', '2026–27'];
+    const parentMother   = [42, 55, 70, 79, 85, 90, 92];
+    const parentFather   = [35, 47, 57, 64, 70, 73, 75];
+    const parentGuardian = [8, 10, 13, 15, 16, 17, 17];
+
+    const parentYearCtx = document.getElementById('parentYearRelationChart').getContext('2d');
+    new Chart(parentYearCtx, {
+      type: 'bar',
+      data: {
+        labels: parentYearLabels,
+        datasets: [
+          {
+            label: 'Mother',
+            data: parentMother,
+            backgroundColor: '#e83e8c',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Father',
+            data: parentFather,
+            backgroundColor: '#1e3c72',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Guardian',
+            data: parentGuardian,
+            backgroundColor: '#54708f',
+            borderRadius: 3,
+            barPercentage: 0.75,
+            categoryPercentage: 0.7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, weight: '700' }, color: '#1e3c72' }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: '#eef2f7', drawBorder: false },
+            ticks: { font: { size: 10, weight: '700' }, color: '#1e3c72', stepSize: 25 }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+            labels: {
+              boxWidth: 10,
+              boxHeight: 10,
+              padding: 10,
+              font: { size: 10, weight: '700' },
+              color: '#1e3c72',
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + ' parents';
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
