@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ndaah Academy · Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      height: 100vh;
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ----- SIDEBAR ----- */
+    .sidebar {
+      width: 270px;
+      background: #ffffff;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 2px solid #cbd5e1;
+    }
+
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 24px 20px;
+      gap: 14px;
+    }
+
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .school-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e3a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 14px 24px 14px;
+      gap: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #334155;
+      text-decoration: none;
+      cursor: default;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+
+    .menu-item i {
+      font-size: 1.1rem;
+      width: 22px;
+      text-align: center;
+      color: #54708f;
+    }
+
+    .menu-item:hover,
+    .menu-item.active {
+      background: #e9f0fe;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+
+    .menu-item:hover i,
+    .menu-item.active i {
+      color: #1e3c72;
+    }
+
+    /* ----- MAIN ----- */
+    .main {
+      flex: 1;
+      background: #f9fcff;
+      height: 100vh;
+      overflow: hidden;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .settings-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+    }
+
+    .settings-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e9eef5;
+      padding: 18px 22px;
+      flex-shrink: 0;
+    }
+
+    .settings-card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #1e3c72;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Two-column layout */
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .settings-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .settings-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .settings-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .settings-label i {
+      font-size: 0.78rem;
+      color: #54708f;
+      width: 16px;
+      text-align: center;
+    }
+
+    /* ----- PASSWORD FORM ----- */
+    .password-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .form-group input {
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #dde5ef;
+      background: #fafcff;
+      font-size: 0.82rem;
+      font-family: inherit;
+      color: #0b1e3a;
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #1e3c72;
+      box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.08);
+    }
+
+    .btn-primary {
+      background: #1e3c72;
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      margin-top: 2px;
+    }
+
+    .btn-primary:hover {
+      background: #14315e;
+    }
+
+    /* ----- SELECT ----- */
+    .settings-select {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #dde5ef;
+      background: #fafcff;
+      font-size: 0.82rem;
+      font-family: inherit;
+      font-weight: 500;
+      color: #0b1e3a;
+      outline: none;
+      cursor: pointer;
+      transition: border 0.15s ease, box-shadow 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2354708f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 14px;
+      padding-right: 32px;
+    }
+
+    .settings-select:focus {
+      border-color: #1e3c72;
+      box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.08);
+    }
+
+    .settings-hint {
+      font-size: 0.62rem;
+      color: #94a3b8;
+      line-height: 1.3;
+    }
+
+    /* ----- LIST ROWS ----- */
+    .list-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f6fd;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+
+    .list-row:last-child {
+      border-bottom: none;
+    }
+
+    .list-row:hover {
+      background: #fafcff;
+      margin: 0 -8px;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-radius: 8px;
+    }
+
+    .list-row-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .list-row-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #f1f6fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1e3c72;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .list-row-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .list-row-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #0b1e3a;
+    }
+
+    .list-row-sub {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .list-row-right {
+      color: #94a3b8;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+    }
+
+    .list-row-action {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #1e3c72;
+      background: #e9f0fe;
+      padding: 5px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .list-row-action:hover {
+      background: #d4e2fc;
+    }
+
+    /* ----- SLIDE-IN PANEL (privacy / terms) ----- */
+    .panel-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 30, 58, 0.35);
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .panel-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 520px;
+      max-width: 100%;
+      background: #ffffff;
+      z-index: 310;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.28s ease;
+      box-shadow: -8px 0 24px rgba(0, 20, 50, 0.10);
+    }
+
+    .slide-panel.open {
+      transform: translateX(0);
+    }
+
+    .slide-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px 24px;
+      border-bottom: 1px solid #eef2f7;
+      flex-shrink: 0;
+    }
+
+    .slide-panel-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0b1e3a;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slide-panel-title i {
+      color: #1e3c72;
+      font-size: 0.9rem;
+    }
+
+    .slide-panel-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: none;
+      background: #f1f6fd;
+      color: #1e3c72;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .slide-panel-close:hover {
+      background: #e2ecfb;
+    }
+
+    .slide-panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px 24px 40px 24px;
+      scrollbar-width: thin;
+    }
+
+    .slide-panel-body::-webkit-scrollbar {
+      width: 5px;
+    }
+    .slide-panel-body::-webkit-scrollbar-track {
+      background: #f1f6fd;
+      border-radius: 10px;
+    }
+    .slide-panel-body::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .panel-section {
+      margin-bottom: 22px;
+    }
+
+    .panel-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .panel-section h4 {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #1e3c72;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .panel-section p {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .panel-section ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 0 0;
+    }
+
+    .panel-section ul li {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #334155;
+      padding: 4px 0 4px 18px;
+      position: relative;
+    }
+
+    .panel-section ul li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 12px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8aa9c9;
+    }
+
+    .panel-updated {
+      font-size: 0.62rem;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* ----- MOBILE ----- */
+    .mobile-bottom-nav { display: none; }
+    .mobile-menu-toggle { display: none; }
+    .mobile-menu-overlay { display: none; }
+
+    .mobile-menu-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 200;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mobile-menu-overlay.open { display: flex; }
+
+    .mobile-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 16px 20px;
+      gap: 10px;
+    }
+
+    .mobile-sidebar-header .logo-img { width: 70px; height: 70px; }
+    .mobile-sidebar-header .school-name { font-size: 1.3rem; font-weight: 700; color: #0b1e3a; text-align: center; }
+
+    .mobile-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 0 14px 24px 14px;
+      gap: 2px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+      z-index: 210;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .main { overflow-y: auto; }
+      .settings-layout { gap: 24px; }
+    }
+
+    @media (max-width: 768px) {
+      html, body { position: static; overflow: auto; height: auto; }
+      body { display: block; height: auto; }
+      .sidebar { display: none; }
+      .main { width: 100%; height: auto; overflow: visible; padding: 20px 16px 88px 16px; display: block; }
+      .mobile-menu-toggle { display: flex; }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+        z-index: 250;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 4px;
+      }
+
+      .mobile-bottom-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 500;
+        flex: 1;
+        height: 100%;
+        padding: 6px 0;
+      }
+
+      .mobile-bottom-nav .nav-item i { font-size: 1.25rem; color: #64748b; }
+      .mobile-bottom-nav .nav-item.active, .mobile-bottom-nav .nav-item:hover { color: #1e3c72; }
+      .mobile-bottom-nav .nav-item.active i, .mobile-bottom-nav .nav-item:hover i { color: #1e3c72; }
+
+      .mobile-menu-overlay { padding: 0; justify-content: flex-start; align-items: stretch; }
+      .mobile-sidebar { padding-bottom: 68px; overflow-y: auto; }
+
+      .settings-container { gap: 12px; overflow: visible; padding-right: 0; }
+      .settings-card { padding: 16px 16px; }
+
+      .settings-layout {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .list-row { padding: 10px 0; }
+      .list-row-sub { display: none; }
+
+      /* Slide panel becomes a full-screen sheet on mobile */
+      .slide-panel {
+        width: 100%;
+        top: 0;
+      }
+
+      .slide-panel-header { padding: 16px 18px; }
+      .slide-panel-body { padding: 18px 18px 32px 18px; }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-nav,
+      .mobile-menu-toggle,
+      .mobile-menu-overlay { display: none !important; }
+    }
+
+    .settings-container::-webkit-scrollbar { width: 5px; }
+    .settings-container::-webkit-scrollbar-track { background: #f1f6fd; border-radius: 10px; }
+    .settings-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img 
+        class="logo-img" 
+        src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+        alt="Ndaah Academy Logo"
+        onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+      >
+      <div class="school-name">Ndaah Academy</div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+      <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+      <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+      <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+      <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+      <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+      <a href="#" class="menu-item active"><i class="fas fa-cog"></i> Setting</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN – SETTINGS VIEW -->
+  <main class="main">
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+
+    <div class="settings-container">
+
+      <!-- CARD 1: Password + Language + Background -->
+      <div class="settings-card">
+        <div class="settings-card-title">Settings</div>
+
+        <div class="settings-layout">
+
+          <!-- LEFT: Change password -->
+          <div class="settings-column">
+            <div class="settings-section">
+              <div class="settings-label">
+                <i class="fas fa-lock"></i> Change password
+              </div>
+              <form class="password-form" onsubmit="event.preventDefault(); alert('Password update simulated.');">
+                <div class="form-group">
+                  <label for="currentPassword">Current password</label>
+                  <input type="password" id="currentPassword" placeholder="Enter current password" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                  <label for="newPassword">New password</label>
+                  <input type="password" id="newPassword" placeholder="Enter new password" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm new password</label>
+                  <input type="password" id="confirmPassword" placeholder="Re-enter new password" autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn-primary">
+                  <i class="fas fa-save"></i> Update password
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- RIGHT: Language + Background -->
+          <div class="settings-column">
+            <div class="settings-section">
+              <div class="settings-label">
+                <i class="fas fa-globe"></i> Language
+              </div>
+              <select class="settings-select" id="languageSelect">
+                <option value="en" selected>English</option>
+                <option value="rw">Kinyarwanda</option>
+                <option value="sw">Swahili</option>
+                <option value="fr">French</option>
+              </select>
+              <div class="settings-hint">Select the language for the interface.</div>
+            </div>
+
+            <div class="settings-section">
+              <div class="settings-label">
+                <i class="fas fa-palette"></i> Background
+              </div>
+              <select class="settings-select" id="themeSelect">
+                <option value="light" selected>Light</option>
+                <option value="dark">Dark</option>
+              </select>
+              <div class="settings-hint">Choose the background theme.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CARD 2: Data / Legal -->
+      <div class="settings-card">
+        <div class="settings-card-title">More</div>
+
+        <div class="list-rows">
+
+          <!-- Download my data -->
+          <div class="list-row" onclick="alert('Your data export will be prepared and emailed to you.');">
+            <div class="list-row-left">
+              <div class="list-row-icon"><i class="fas fa-download"></i></div>
+              <div class="list-row-text">
+                <span class="list-row-title">Download my data</span>
+                <span class="list-row-sub">Export all your account data as a file</span>
+              </div>
+            </div>
+            <span class="list-row-action">
+              <i class="fas fa-download"></i> Download
+            </span>
+          </div>
+
+          <!-- Privacy policy (opens panel) -->
+          <div class="list-row" onclick="openPanel('privacy')">
+            <div class="list-row-left">
+              <div class="list-row-icon"><i class="fas fa-shield-alt"></i></div>
+              <div class="list-row-text">
+                <span class="list-row-title">Privacy policy</span>
+                <span class="list-row-sub">How we collect, use and protect your information</span>
+              </div>
+            </div>
+            <span class="list-row-right"><i class="fas fa-chevron-right"></i></span>
+          </div>
+
+          <!-- Terms of use (opens panel) -->
+          <div class="list-row" onclick="openPanel('terms')">
+            <div class="list-row-left">
+              <div class="list-row-icon"><i class="fas fa-file-contract"></i></div>
+              <div class="list-row-text">
+                <span class="list-row-title">Terms of use</span>
+                <span class="list-row-sub">Rules and guidelines for using the platform</span>
+              </div>
+            </div>
+            <span class="list-row-right"><i class="fas fa-chevron-right"></i></span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- SLIDE-IN PANEL OVERLAY -->
+  <div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+
+  <!-- PRIVACY POLICY PANEL -->
+  <aside class="slide-panel" id="privacyPanel">
+    <div class="slide-panel-header">
+      <div class="slide-panel-title">
+        <i class="fas fa-shield-alt"></i> Privacy policy
+      </div>
+      <button class="slide-panel-close" onclick="closePanel()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="slide-panel-body">
+
+      <div class="panel-section">
+        <h4>What we collect</h4>
+        <p>
+          Ndaah Academy collects information you provide when you work with the school
+          or when your child attends the school. This includes identity details, contact
+          information, academic records, attendance, assessment and finance information
+          needed to run the school.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>How we use your data</h4>
+        <p>
+          We use your data in different ways to support teaching, learning, school
+          administration, communication with parents and guardians, and to meet our
+          legal obligations. Data is processed only for legitimate school purposes.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Sharing your data</h4>
+        <p>
+          We may share your data with legal authorities or with our national school
+          authorities — including <strong>NESA</strong>, <strong>MINEDUC</strong> and
+          <strong>HEC</strong> — when they request it for verification, reporting or
+          compliance.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Keeping your data safe</h4>
+        <p>
+          Your data is safe with us. We apply strict access controls, audit trails and
+          secure storage to make sure your information is only seen by authorised staff.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Your right to your data</h4>
+        <p>
+          You can request a copy of the data we hold about you at any time. Use the
+          <strong>Download my data</strong> option in Settings or contact the school
+          administration.
+        </p>
+      </div>
+
+      <div class="panel-updated">Last updated: 12 January 2024</div>
+    </div>
+  </aside>
+
+  <!-- TERMS OF USE PANEL -->
+  <aside class="slide-panel" id="termsPanel">
+    <div class="slide-panel-header">
+      <div class="slide-panel-title">
+        <i class="fas fa-file-contract"></i> Terms of use
+      </div>
+      <button class="slide-panel-close" onclick="closePanel()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="slide-panel-body">
+
+      <div class="panel-section">
+        <h4>Account activity</h4>
+        <p>
+          When you log in or while your account is active, we record what you do on
+          the platform — such as the actions you take, the records you view or modify,
+          and the time of each action.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Identity assumption</h4>
+        <p>
+          We believe that actions performed through your account are done by you.
+          Keep your password private and contact the administration immediately if you
+          suspect someone else has access to your account.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Acceptable use</h4>
+        <ul>
+          <li>Use the platform only for school-related purposes.</li>
+          <li>Do not share your account with anyone else.</li>
+          <li>Do not attempt to access data you are not authorised to see.</li>
+          <li>Report any suspicious activity to the school administration.</li>
+        </ul>
+      </div>
+
+      <div class="panel-section">
+        <h4>Your data rights</h4>
+        <p>
+          You can request your data at any time. We will provide a copy of the
+          activity and information linked to your account.
+        </p>
+      </div>
+
+      <div class="panel-section">
+        <h4>Changes to these terms</h4>
+        <p>
+          We may update these terms from time to time. Continued use of the platform
+          means you accept the latest version.
+        </p>
+      </div>
+
+      <div class="panel-updated">Last updated: 12 January 2024</div>
+    </div>
+  </aside>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav">
+    <a href="#" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-user-graduate"></i><span>Student</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Academic</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-calendar-check"></i><span>Attendance</span></a>
+    <a href="#" class="nav-item active"><i class="fas fa-cog"></i><span>Setting</span></a>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuClose">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-sidebar">
+      <div class="mobile-sidebar-header">
+        <img 
+          class="logo-img" 
+          src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+          alt="Ndaah Academy Logo"
+          onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+        >
+        <div class="school-name">Ndaah Academy</div>
+      </div>
+
+      <nav class="mobile-sidebar-menu">
+        <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+        <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+        <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+        <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+        <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+        <a href="#" class="menu-item active"><i class="fas fa-cog"></i> Setting</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('mobileMenuToggle');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const closeBtn = document.getElementById('mobileMenuClose');
+
+      if (toggle && overlay && closeBtn) {
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          overlay.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', function() {
+          overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('open');
+          }
+        });
+      }
+    })();
+
+    /* Slide-in panels for Privacy / Terms */
+    function openPanel(which) {
+      const overlay = document.getElementById('panelOverlay');
+      const privacy = document.getElementById('privacyPanel');
+      const terms = document.getElementById('termsPanel');
+
+      overlay.classList.add('open');
+      if (which === 'privacy') {
+        privacy.classList.add('open');
+      } else if (which === 'terms') {
+        terms.classList.add('open');
+      }
+    }
+
+    function closePanel() {
+      document.getElementById('panelOverlay').classList.remove('open');
+      document.getElementById('privacyPanel').classList.remove('open');
+      document.getElementById('termsPanel').classList.remove('open');
+    }
+
+    /* Esc closes panel */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePanel();
+    });
+
+    document.getElementById('languageSelect').addEventListener('change', function(e) {
+      console.log('Language changed to:', e.target.value);
+    });
+
+    document.getElementById('themeSelect').addEventListener('change', function(e) {
+      console.log('Theme changed to:', e.target.value);
+    });
+  </script>
+</body>
+</html>
