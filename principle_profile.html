@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ndaah Academy · My Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      height: 100vh;
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ----- SIDEBAR (desktop only) ----- */
+    .sidebar {
+      width: 270px;
+      background: #ffffff;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 2px solid #cbd5e1;
+    }
+
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 24px 20px;
+      gap: 14px;
+    }
+
+    .logo-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+
+    .school-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e3a;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 14px 24px 14px;
+      gap: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #334155;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+      cursor: default;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+
+    .menu-item i {
+      font-size: 1.1rem;
+      width: 22px;
+      text-align: center;
+      color: #54708f;
+      transition: color 0.15s ease;
+    }
+
+    .menu-item:hover {
+      background-color: #f1f6fd;
+      color: #1e3c72;
+    }
+
+    .menu-item:hover i {
+      color: #1e3c72;
+    }
+
+    .menu-item.active {
+      background: #e9f0fe;
+      color: #1e3c72;
+      font-weight: 600;
+    }
+
+    .menu-item.active i {
+      color: #1e3c72;
+    }
+
+    /* ----- MAIN ----- */
+    .main {
+      flex: 1;
+      background: #f9fcff;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      padding: 16px 20px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ----- PROFILE GRID ----- */
+    .profile-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+    }
+
+    .profile-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e9eef5;
+      padding: 16px 20px;
+      flex-shrink: 0;
+    }
+
+    .profile-card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #1e3c72;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* ---------- CARD 1: PERSONAL INFO ---------- */
+    .personal-layout {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .personal-image-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .personal-image-square {
+      width: 100%;
+      max-width: 100px;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 20, 50, 0.08);
+      background: linear-gradient(145deg, #e9f0fe, #d4e2fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e3c72;
+    }
+
+    .personal-image-square img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .personal-role-text {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #1e3c72;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+      background: #e9f0fe;
+      padding: 4px 10px;
+      border-radius: 40px;
+      width: 100%;
+      max-width: 100px;
+    }
+
+    .personal-info-column {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .personal-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .personal-info-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .personal-info-value {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0b1e3a;
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    /* Address block spans full width on desktop under the two columns */
+    .personal-address-row {
+      grid-column: 2 / span 2;
+      padding-top: 4px;
+    }
+
+    /* ---------- CARD 2: SESSIONS + ACTIVITY ---------- */
+    .sessions-activity-container {
+      display: flex;
+      flex-direction: row;
+      gap: 28px;
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .sessions-box {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .activity-box {
+      flex: 1.2;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .box-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #1e3c72;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #1e3c72;
+      color: white;
+      border: none;
+      padding: 5px 11px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.62rem;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-download:hover {
+      background: #14315e;
+    }
+
+    /* Sessions list */
+    .sessions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .session-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f1f6fd;
+    }
+
+    .session-item:last-child {
+      border-bottom: none;
+    }
+
+    .session-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .session-device-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: #f1f6fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1e3c72;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .session-device-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .session-device-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #0b1e3a;
+    }
+
+    .session-device-status {
+      font-size: 0.58rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .session-device-status.active {
+      color: #16a34a;
+    }
+
+    .session-device-status.idle {
+      color: #94a3b8;
+    }
+
+    .session-device-time {
+      font-size: 0.58rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .session-remove {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #e11d48;
+      background: #fef2f4;
+      border: 1px solid #fecdd3;
+      cursor: pointer;
+      padding: 4px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .session-remove:hover {
+      background: #ffe4e6;
+      border-color: #fda4af;
+    }
+
+    /* Activity list */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-height: 170px;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid #f8fafc;
+      font-size: 0.78rem;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-time {
+      color: #64748b;
+      font-weight: 500;
+      font-size: 0.66rem;
+      white-space: nowrap;
+      min-width: 82px;
+    }
+
+    .activity-what {
+      color: #0b1e3a;
+      font-weight: 500;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ----- MOBILE ELEMENTS (hidden by default) ----- */
+    .mobile-bottom-nav { display: none; }
+    .mobile-menu-toggle { display: none; }
+    .mobile-menu-overlay { display: none; }
+
+    .mobile-menu-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 200;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mobile-menu-overlay.open {
+      display: flex;
+    }
+
+    .mobile-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 16px 20px;
+      gap: 10px;
+    }
+
+    .mobile-sidebar-header .logo-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .mobile-sidebar-header .school-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0b1e3a;
+      text-align: center;
+    }
+
+    .mobile-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      padding: 0 14px 24px 14px;
+      gap: 2px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-sidebar-menu .menu-item {
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border-radius: 10px;
+      gap: 14px;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1e3c72;
+      font-size: 1.6rem;
+      padding: 0;
+      z-index: 210;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 1200px) and (min-width: 769px) {
+      .personal-layout {
+        grid-template-columns: 90px 1fr 1fr;
+        gap: 16px;
+      }
+      .personal-image-square { max-width: 90px; }
+      .personal-role-text { max-width: 90px; font-size: 0.6rem; }
+    }
+
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .main {
+        overflow-y: auto;
+      }
+      .personal-layout {
+        grid-template-columns: 90px 1fr 1fr;
+        gap: 14px;
+      }
+    }
+
+    /* Mobile (max-width: 768px) */
+    @media (max-width: 768px) {
+      html, body {
+        position: static;
+        overflow: auto;
+        height: auto;
+      }
+
+      body {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        padding: 20px 16px 88px 16px;
+        display: block;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+      }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+        z-index: 250;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 4px;
+      }
+
+      .mobile-bottom-nav .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        color: #64748b;
+        font-size: 0.65rem;
+        font-weight: 500;
+        flex: 1;
+        height: 100%;
+        padding: 6px 0;
+      }
+
+      .mobile-bottom-nav .nav-item i {
+        font-size: 1.25rem;
+        color: #64748b;
+      }
+
+      .mobile-bottom-nav .nav-item.active,
+      .mobile-bottom-nav .nav-item:hover {
+        color: #1e3c72;
+      }
+
+      .mobile-bottom-nav .nav-item.active i,
+      .mobile-bottom-nav .nav-item:hover i {
+        color: #1e3c72;
+      }
+
+      .mobile-menu-overlay {
+        padding: 0;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .mobile-sidebar {
+        padding-bottom: 68px;
+        overflow-y: auto;
+      }
+
+      .profile-grid {
+        gap: 12px;
+        overflow: visible;
+        padding-right: 0;
+      }
+
+      .profile-card {
+        padding: 14px 16px;
+      }
+
+      /* Personal info: single column stack on mobile */
+      .personal-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .personal-image-block {
+        align-items: center;
+      }
+
+      .personal-image-square {
+        max-width: 90px;
+      }
+
+      .personal-role-text {
+        max-width: 90px;
+        font-size: 0.6rem;
+      }
+
+      .personal-info-column {
+        gap: 10px;
+      }
+
+      .personal-info-value { font-size: 0.78rem; }
+      .personal-info-label { font-size: 0.58rem; }
+
+      /* Address: reset the grid-column hack on mobile */
+      .personal-address-row {
+        grid-column: auto;
+        padding-top: 0;
+      }
+
+      .sessions-activity-container {
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .sessions-box,
+      .activity-box {
+        flex: none;
+        width: 100%;
+      }
+
+      .activity-list { max-height: 200px; }
+
+      .session-item { flex-wrap: wrap; gap: 6px; }
+      .session-left { gap: 8px; }
+
+      .activity-item { flex-direction: column; gap: 2px; }
+      .activity-time { font-size: 0.62rem; }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-nav,
+      .mobile-menu-toggle,
+      .mobile-menu-overlay {
+        display: none !important;
+      }
+    }
+
+    .profile-grid::-webkit-scrollbar,
+    .activity-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .profile-grid::-webkit-scrollbar-track,
+    .activity-list::-webkit-scrollbar-track {
+      background: #f1f6fd;
+      border-radius: 10px;
+    }
+    .profile-grid::-webkit-scrollbar-thumb,
+    .activity-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img 
+        class="logo-img" 
+        src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+        alt="Ndaah Academy Logo"
+        onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+      >
+      <div class="school-name">Ndaah Academy</div>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+      <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+      <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+      <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+      <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+      <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+      <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+      <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+      <a href="#" class="menu-item active"><i class="fas fa-user-circle"></i> My Profile</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN – PROFILE VIEW -->
+  <main class="main">
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- CARD 1: PERSONAL INFORMATION -->
+      <div class="profile-card">
+        <div class="profile-card-title">Personal information</div>
+        <div class="personal-layout">
+          <!-- Part 1: Image + role -->
+          <div class="personal-image-block">
+            <div class="personal-image-square">
+              <img 
+                src="https://ui-avatars.com/api/?name=Jean+Marie+Nsengimana&background=1e3c72&color=fff&size=256&font-size=0.5&bold=true" 
+                alt="Jean-Marie Nsengimana"
+                onerror="this.style.display='none'; this.parentElement.textContent='JM';"
+              >
+            </div>
+            <div class="personal-role-text">Principal</div>
+          </div>
+
+          <!-- Part 2: Core identity -->
+          <div class="personal-info-column">
+            <div class="personal-info-item">
+              <span class="personal-info-label">Full name</span>
+              <span class="personal-info-value">Jean‑Marie Nsengimana</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">Gender</span>
+              <span class="personal-info-value">Male</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">Date of birth</span>
+              <span class="personal-info-value">15 March 1982</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">User ID</span>
+              <span class="personal-info-value">USR‑2024‑001</span>
+            </div>
+          </div>
+
+          <!-- Part 3: Background & contact -->
+          <div class="personal-info-column">
+            <div class="personal-info-item">
+              <span class="personal-info-label">Nationality</span>
+              <span class="personal-info-value">Rwandan</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">NID / Passport</span>
+              <span class="personal-info-value">1198273654321</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">Email</span>
+              <span class="personal-info-value">jm.nsengimana@ndaah.rw</span>
+            </div>
+            <div class="personal-info-item">
+              <span class="personal-info-label">Contact</span>
+              <span class="personal-info-value">+250 788 123 456</span>
+            </div>
+          </div>
+
+          <!-- Address (full-width row on desktop, normal item on mobile) -->
+          <div class="personal-info-column personal-address-row">
+            <div class="personal-info-item">
+              <span class="personal-info-label">Address</span>
+              <span class="personal-info-value">KG 11 Ave, Kigali, Rwanda</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: SESSIONS + ACTIVITY LOG -->
+      <div class="profile-card">
+        <div class="sessions-activity-container">
+
+          <!-- LEFT: Sessions -->
+          <div class="sessions-box">
+            <div class="box-header">
+              <span class="box-title">Sessions</span>
+            </div>
+            <div class="sessions-list">
+
+              <div class="session-item">
+                <div class="session-left">
+                  <div class="session-device-icon"><i class="fas fa-desktop"></i></div>
+                  <div class="session-device-info">
+                    <span class="session-device-name">Desktop</span>
+                    <span class="session-device-status active">Active</span>
+                    <span class="session-device-time">Last activity: 2 min ago</span>
+                  </div>
+                </div>
+                <button class="session-remove" onclick="alert('Remove Desktop device');">
+                  <i class="fas fa-trash-alt"></i> Remove
+                </button>
+              </div>
+
+              <div class="session-item">
+                <div class="session-left">
+                  <div class="session-device-icon"><i class="fas fa-mobile-alt"></i></div>
+                  <div class="session-device-info">
+                    <span class="session-device-name">Phone</span>
+                    <span class="session-device-status active">Active</span>
+                    <span class="session-device-time">Last activity: 18 min ago</span>
+                  </div>
+                </div>
+                <button class="session-remove" onclick="alert('Remove Phone device');">
+                  <i class="fas fa-trash-alt"></i> Remove
+                </button>
+              </div>
+
+              <div class="session-item">
+                <div class="session-left">
+                  <div class="session-device-icon"><i class="fas fa-tablet-alt"></i></div>
+                  <div class="session-device-info">
+                    <span class="session-device-name">Tablet</span>
+                    <span class="session-device-status idle">Idle</span>
+                    <span class="session-device-time">Last activity: 3h ago</span>
+                  </div>
+                </div>
+                <button class="session-remove" onclick="alert('Remove Tablet device');">
+                  <i class="fas fa-trash-alt"></i> Remove
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT: Activity log -->
+          <div class="activity-box">
+            <div class="box-header">
+              <span class="box-title">Activity log</span>
+              <button class="btn-download" onclick="downloadActivity()">
+                <i class="fas fa-download"></i> Download
+              </button>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-item">
+                <span class="activity-time">18 Feb, 09:23</span>
+                <span class="activity-what">Created a new student record</span>
+              </div>
+              <div class="activity-item">
+                <span class="activity-time">18 Feb, 08:12</span>
+                <span class="activity-what">Updated fees for a student</span>
+              </div>
+              <div class="activity-item">
+                <span class="activity-time">18 Feb, 07:58</span>
+                <span class="activity-what">Logged in</span>
+              </div>
+              <div class="activity-item">
+                <span class="activity-time">17 Feb, 16:40</span>
+                <span class="activity-what">Deleted an attendance record</span>
+              </div>
+              <div class="activity-item">
+                <span class="activity-time">16 Feb, 18:12</span>
+                <span class="activity-what">Changed password</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="mobile-bottom-nav">
+    <a href="#" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-user-graduate"></i><span>Student</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Academic</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-calendar-check"></i><span>Attendance</span></a>
+    <a href="#" class="nav-item active"><i class="fas fa-user-circle"></i><span>Profile</span></a>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <button class="mobile-menu-close" id="mobileMenuClose">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-sidebar">
+      <div class="mobile-sidebar-header">
+        <img 
+          class="logo-img" 
+          src="https://cdn.jsdelivr.net/gh/thierryartspace/ecd_media@main/ndaah_logo.png" 
+          alt="Ndaah Academy Logo"
+          onerror="this.onerror=null; this.src='https://github.com/thierryartspace/ecd_media/raw/main/ndaah_logo.png';"
+        >
+        <div class="school-name">Ndaah Academy</div>
+      </div>
+
+      <nav class="mobile-sidebar-menu">
+        <a href="#" class="menu-item"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-item"><i class="fas fa-user-graduate"></i> Student</a>
+        <a href="#" class="menu-item"><i class="fas fa-book-open"></i> Academic</a>
+        <a href="#" class="menu-item"><i class="fas fa-calendar-check"></i> Attendance</a>
+        <a href="#" class="menu-item"><i class="fas fa-clipboard-list"></i> Assessment</a>
+        <a href="#" class="menu-item"><i class="fas fa-chart-pie"></i> Finance</a>
+        <a href="#" class="menu-item"><i class="fas fa-key"></i> Access</a>
+        <a href="#" class="menu-item"><i class="fas fa-cog"></i> Setting</a>
+        <a href="#" class="menu-item active"><i class="fas fa-user-circle"></i> My Profile</a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('mobileMenuToggle');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const closeBtn = document.getElementById('mobileMenuClose');
+
+      if (toggle && overlay && closeBtn) {
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          overlay.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', function() {
+          overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) {
+            overlay.classList.remove('open');
+          }
+        });
+      }
+    })();
+
+    function downloadActivity() {
+      alert('Activity log download started — a CSV file will be generated.');
+    }
+  </script>
+</body>
+</html>
