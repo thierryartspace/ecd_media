@@ -30,19 +30,21 @@ ALTER TABLE parent
 -------------------
 CREATE TABLE attendance (
     attendance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
     person_id INT NOT NULL,
+
     attendance_date DATE NOT NULL,
+
+    expected BOOLEAN NOT NULL,
 
     status ENUM(
         'Present',
         'Absent',
-        'Late',
         'Excused'
-    ) NOT NULL,
+    ) NULL,
 
-    first_check_in DATETIME NULL,
-    last_check_out DATETIME NULL,
     notes TEXT NULL,
+
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     UNIQUE KEY uq_person_attendance_date (
@@ -50,74 +52,53 @@ CREATE TABLE attendance (
         attendance_date
     ),
 
-    INDEX idx_attendance_date (attendance_date),
-
     CONSTRAINT fk_attendance_person
         FOREIGN KEY (person_id)
         REFERENCES person(person_id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
 );
-
 CREATE TABLE attendance_log (
     attendance_log_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    person_id INT NOT NULL,
-    attendance_id BIGINT NULL,
+    attendance_id BIGINT NOT NULL,
 
     event_type ENUM(
-        'Entry',
-        'Exit'
+        'In',
+        'Out'
     ) NOT NULL,
 
-    access_result ENUM(
+    event_time DATETIME NOT NULL,
+
+    result ENUM(
         'Allowed',
         'Denied'
     ) NOT NULL,
+
+    timing_status ENUM(
+        'Early',
+        'On Time',
+        'Late'
+    ) NULL,
 
     attendance_method ENUM(
         'Biometric',
         'Manual'
     ) NOT NULL,
 
-    event_time DATETIME NOT NULL,
+    notes TEXT NULL,
 
-    -- Staff member who manually recorded the event
     recorded_by_staff_id INT NULL,
 
-    denial_reason VARCHAR(255) NULL,
-    source_event_id VARCHAR(100) NULL,
-    source_device_code VARCHAR(100) NULL,
-
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    UNIQUE KEY uq_attendance_source_event (
-        source_event_id
-    ),
-
-    INDEX idx_attendance_log_person_time (
-        person_id,
-        event_time
-    ),
-
-    INDEX idx_attendance_log_result_time (
-        access_result,
-        event_time
-    ),
 
     INDEX idx_attendance_log_attendance (
         attendance_id
     ),
 
-    INDEX idx_attendance_log_staff (
-        recorded_by_staff_id
+    INDEX idx_attendance_log_time (
+        event_time
     ),
-
-    CONSTRAINT fk_attendance_log_person
-        FOREIGN KEY (person_id)
-        REFERENCES person(person_id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
 
     CONSTRAINT fk_attendance_log_attendance
         FOREIGN KEY (attendance_id)
@@ -129,16 +110,8 @@ CREATE TABLE attendance_log (
         FOREIGN KEY (recorded_by_staff_id)
         REFERENCES staff(staff_id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-
-    CONSTRAINT chk_manual_attendance_staff
-        CHECK (
-            attendance_method <> 'Manual'
-            OR recorded_by_staff_id IS NOT NULL
-        )
+        ON DELETE RESTRICT
 );
-
-
 CREATE TABLE visitor (
     visitor_id INT AUTO_INCREMENT PRIMARY KEY,
 
